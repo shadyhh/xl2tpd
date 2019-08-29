@@ -130,6 +130,7 @@ struct lac
     int idle;                   /* Idle timeout in seconds */
     int autodial;               /* Try to dial immediately? */
     int defaultroute;           /* Use as default route? */
+    int watchguardfirewall;     /* Is peer a watchguard firewall? */
     int redial;                 /* Redial if disconnected */
     int rmax;                   /* Maximum # of consecutive redials */
     int rtries;                 /* # of tries so far */
