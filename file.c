@@ -170,6 +170,7 @@ struct lac *new_lac ()
     tmp->pass_peer = 0;
     tmp->pppoptfile[0] = 0;
     tmp->defaultroute = 0;
+    tmp->watchguardfirewall = 0;
     return tmp;
 }
 
@@ -505,6 +506,22 @@ int set_defaultroute (char *word, char *value, int context, void *item)
     {
     case CONTEXT_LAC:
         if (set_boolean (word, value, &(((struct lac *) item)->defaultroute)))
+            return -1;
+        break;
+    default:
+        snprintf (filerr, sizeof (filerr), "'%s' not valid in this context\n",
+                  word);
+        return -1;
+    }
+    return 0;
+}
+
+int set_watchguardfirewall (char *word, char *value, int context, void *item)
+{
+    switch (context & ~CONTEXT_DEFAULT)
+    {
+    case CONTEXT_LAC:
+        if (set_boolean (word, value, &(((struct lac *) item)->watchguardfirewall)))
             return -1;
         break;
     default:
@@ -1595,6 +1612,7 @@ struct keyword words[] = {
     {"local ip range", &set_localiprange},
     {"remote ip", &set_remoteaddr},
     {"defaultroute", &set_defaultroute},
+    {"watchguardfirewall", &set_watchguardfirewall},
     {"length bit", &set_lbit},
     {"hidden bit", &set_hbit},
     {"require pap", &set_papchap},
